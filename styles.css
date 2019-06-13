@@ -1,0 +1,69 @@
+* {
+  box-sizing: border-box;
+}
+
+.hidden {
+  display: none;
+}
+
+header {
+  /* header styles */
+}
+
+header h1 {
+  /* bookmark app title styles */
+}
+
+.error-container {
+  /* error container styles */
+}
+
+.flex-container {
+  /* display: flex; */
+}
+
+.user-controls {
+  /* user controls (add button and drop down container) */
+}
+
+.user-controls button {
+  /* styles for add button */
+}
+
+#star-rating-filter {
+  /* styles for dropdown filter */
+}
+
+.bookmark {
+  /* styles for bookmark */
+}
+
+.bookmark-name {
+  /* styles for bookmark name */
+}
+
+.bookmark-rating {
+  /* styles for bookmark rating */
+}
+
+.expand-button {
+  /* styles for expand button */
+}
+
+.bookmark-expand {
+  /* styles for expanded bookmark */
+}
+
+.bookmark-URL {
+  /* bookmark url styles */
+}
+
+.delete-button {
+  /* delete button styles */
+}
+
+footer {
+  /* footer styles */
+}
+
+/* MEDIA QUERIES */

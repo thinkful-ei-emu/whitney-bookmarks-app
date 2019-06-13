@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 
-.hidden {
+.bookmark-expand {
   display: none;
 }
 
@@ -34,8 +34,12 @@ header h1 {
   /* styles for dropdown filter */
 }
 
-.bookmark {
-  /* styles for bookmark */
+.bookmark-container {
+  border: solid 1px black;
+}
+
+.bookmark-condensed-container {
+  border: solid 1px black;
 }
 
 .bookmark-name {

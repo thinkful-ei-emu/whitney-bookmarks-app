@@ -3,9 +3,26 @@
 const api = function() {
   const baseURL = 'https://thinkful-list-api.herokuapp.com/whitneywallace/bookmarks';
 
-  const bookmarkApiFetch = function(url, options) {
+  const bookmarkApiFetch = function(method, body, id=null) {
     let error;
-    return fetch(url)
+    let options = {
+      headers: new Headers({'Content-Type':'application/json'}),
+      method: method,
+      body: JSON.stringify(body)
+    };
+    let destinationURL = baseURL;
+
+    // if the request has an id, add it to the endpoint
+    if(id) {
+      destinationURL += '/'+id;
+    }
+
+    // if request is a GET request, delete the body key to avoid error (GET requests cannot have a body)
+    if(options.method === 'GET') {
+      delete options.body;
+    }
+
+    return fetch(destinationURL, options)
       .then(response => {
         // check if our resopnse is NOT ok
         if (!response.ok) {
@@ -25,8 +42,7 @@ const api = function() {
       .then(jsonObj => {
         // NEED MORE CLARIFICATION ON WHAT THIS PORTION DOES
         if (error) {
-          console.log(error);
-          console.log('this is in the if loop');
+          //console.log(error);
           error.message = jsonObj.message;
           return Promise.reject(error);
         }
@@ -39,11 +55,16 @@ const api = function() {
   const getBookmarks = function() {
     // call our bookmarkApiFetch function using the baseURL
     // expect to return all bookmark objects
-    return bookmarkApiFetch(baseURL);
+    return bookmarkApiFetch('GET');
+  };
+
+  const deleteBookmark = function(id) {
+    return bookmarkApiFetch('DELETE', {}, id);
   };
 
   return {
-    getBookmarks
+    getBookmarks,
+    deleteBookmark
   };
 
 }();

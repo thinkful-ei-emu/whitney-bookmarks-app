@@ -21,6 +21,12 @@ const STORE = function(){
     }
   };
 
+  const deleteBookmark = function(id) {
+    //find bookmark with matching id
+    this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
+    //console.log(this.bookmarks);
+  };
+
 
 
   // returns store object with bookmarks
@@ -28,7 +34,8 @@ const STORE = function(){
     bookmarks: [],
     error: null,
     addBookmark,
-    expandBookmark
+    expandBookmark,
+    deleteBookmark
   };
 
 }();

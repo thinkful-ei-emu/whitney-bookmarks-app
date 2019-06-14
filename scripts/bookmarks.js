@@ -1,5 +1,5 @@
 'use strict';
-/*global STORE */
+/*global STORE, api */
 
 const bookmarks = function() {
 
@@ -10,8 +10,8 @@ const bookmarks = function() {
 
     // generate individual bookmark html
     return `
-    <div class="bookmark-condensed-container js-bookmark-condensed-container">
-      <h2 class="bookmark-name js-bookmark-name" data-item-id="${bookmarkInd.id}">${bookmarkInd.title}</h2>
+    <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
+      <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
       <span class="bookmark-rating js-bookmark-rating">${bookmarkInd.rating}</span>
       <button class="expand-button js-expand-button">...</button>
     </div>
@@ -34,6 +34,7 @@ const bookmarks = function() {
 
     //making a copy of our STORE
     let bookmarksStoreCopy = [...STORE.bookmarks];
+    //console.log(bookmarksStoreCopy);
     //console.log(bookmarks);
 
     // send bookmarks object to generate html
@@ -47,7 +48,6 @@ const bookmarks = function() {
   const getBookmarkIdFromElement = function(targetElement) {
     return $(targetElement)
       .closest('.js-bookmark-condensed-container')
-      .children('.js-bookmark-name')
       .data('item-id');
   };
 
@@ -61,8 +61,31 @@ const bookmarks = function() {
     });
   };
 
+  const handleBookmarkDelete = function() {
+    $('.js-bookmark-container').on('click', '.js-delete-button', e => {
+      //console.log('You clicked the delete button!');
+      const id = $(e.currentTarget)
+        .parent()
+        .prev()
+        .data('item-id');
+      //console.log(id);
+      api.deleteBookmark(id)
+        .then(() => {
+          STORE.deleteBookmark(id);
+          render();
+        })
+        .catch((error) => {
+          console.log(error);
+          store.setError(error.message);
+          renderError();
+        }
+        );
+    });
+  };
+
   const bindEventListeners = function() {
     handleBookmarkExpand();
+    handleBookmarkDelete();
   };
 
   return {

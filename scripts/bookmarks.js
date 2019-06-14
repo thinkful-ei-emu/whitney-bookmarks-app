@@ -1,5 +1,6 @@
 'use strict';
 /*global STORE, api */
+/*eslint-env jquery */
 
 const bookmarks = function() {
 
@@ -26,29 +27,30 @@ const bookmarks = function() {
   };
 
   const generateBookmarkAddHtml = function() {
+    const errorHide = !STORE.error ? 'bookmark-hide':'';
     return [`
-    <div class="add-book-container">
-    <form> 
+    <div class="add-bookmark-container">
+    <form class="add-bookmark-form"> 
       <fieldset>
         <legend>Bookmark Information</legend>
-        Title:<br>
-        <input type="text" name:"title" required><br>
-        Rating:<br>
-        <input type="radio" name="stars" value="5 stars" checked>5 stars
-        <input type="radio" name="stars" value="4 stars">4 stars
-        <input type="radio" name="stars" value="3 stars">3 stars
-        <input type="radio" name="stars" value="2 stars">2 stars
-        <input type="radio" name="stars" value="1 stars">1 star<br>
-        Description:<br>
-        <textarea name="description" id="bookmark-description" cols="100" rows="10" required></textarea><br>
-        Bookmark URL:<br>
-        <input type="url" name="url" required><br><br>
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="rating">Rating:</label><br>
+        <input type="radio" name="rating" id="rating" value="5" checked>5 stars
+        <input type="radio" name="rating" id="rating" value="4">4 stars
+        <input type="radio" name="rating" id="rating" value="3">3 stars
+        <input type="radio" name="rating" id="rating" value="2">2 stars
+        <input type="radio" name="rating" id="rating" value="1">1 star<br>
+        <lable for="bookmark-description">Description:</lable><br>
+        <textarea name="desc" id="bookmark-description" cols="100" rows="10" required></textarea><br>
+        <label for="url">Bookmark URL:</label><br>
+        <input type="url" name="url" id="url" required><br><br>
         <input type="submit" value="Submit">
         <input type="reset" value="Reset"> 
       </fieldset>
     </form>
     <!-- ERROR DISPLAY -->
-    <div class="error-container js-error-container">
+    <div class="error-container js-error-container ${errorHide}">
       <h2>ERROR!</h2>
       <p>Errors</p>
     </div>
@@ -66,7 +68,9 @@ const bookmarks = function() {
     if (STORE.adding) {
       //if STORE.adding is true, add the ADDING html
       const addHtml = generateBookmarkAddHtml().join('');
+      $('.user-controls').toggleClass('bookmark-hide');
       $('.js-bookmark-container').html(addHtml);
+      bindEventListeners();
     } else {
     //otherwise add the bookmark html
       let bookmarksStoreCopy = [...STORE.bookmarks];
@@ -77,8 +81,14 @@ const bookmarks = function() {
       // add the html to the bookmark container
       $('.js-bookmark-container').html(bookmarkHtml);
     }
+  };
 
-
+  const serializeJson = function(form) {
+    //console.log(form);
+    const formData = new FormData(form);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    return JSON.stringify(o);
   };
 
   /*Event Listeners */
@@ -114,8 +124,8 @@ const bookmarks = function() {
         })
         .catch((error) => {
           console.log(error);
-          STORE.error(error.message);
-          renderError();
+          //STORE.error(error.message);
+          //renderError();
         }
         );
     });
@@ -123,9 +133,27 @@ const bookmarks = function() {
 
   const handleBookmarkAdd = function() {
     $('.js-button-add').click(() => {
-      console.log('You clicked the add button');
+      //console.log('You clicked the add button');
       STORE.adding = true;
       render();
+    });
+  };
+
+  const handleBookmarkSubmit = function() {
+    $('.add-bookmark-form').submit(function(event) {
+      event.preventDefault();
+      let formElement = $('.add-bookmark-form')[0];
+      let jsonObj = serializeJson(formElement);
+
+      //create item in API
+      api.createBookmark(jsonObj)
+        .then((newBookmark) => {
+          //then update the store
+          STORE.addBookmark(newBookmark);
+          STORE.adding = false;
+          render();
+        }).catch(e => handleErrors(e));
+      //render();
     });
   };
 
@@ -133,6 +161,7 @@ const bookmarks = function() {
     handleBookmarkExpand();
     handleBookmarkDelete();
     handleBookmarkAdd();
+    handleBookmarkSubmit();
   };
 
   return {

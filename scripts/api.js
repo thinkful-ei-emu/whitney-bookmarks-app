@@ -8,8 +8,9 @@ const api = function() {
     let options = {
       headers: new Headers({'Content-Type':'application/json'}),
       method: method,
-      body: JSON.stringify(body)
+      body: body
     };
+    console.log(body);
     let destinationURL = baseURL;
 
     // if the request has an id, add it to the endpoint
@@ -18,7 +19,7 @@ const api = function() {
     }
 
     // if request is a GET request, delete the body key to avoid error (GET requests cannot have a body)
-    if(options.method === 'GET') {
+    if(options.method === 'GET' || options.method === 'DELETE') {
       delete options.body;
     }
 
@@ -62,9 +63,15 @@ const api = function() {
     return bookmarkApiFetch('DELETE', {}, id);
   };
 
+  const createBookmark = function(jsonObj) {
+    console.log(jsonObj);
+    return bookmarkApiFetch('POST', jsonObj);
+  };
+
   return {
     getBookmarks,
-    deleteBookmark
+    deleteBookmark,
+    createBookmark
   };
 
 }();

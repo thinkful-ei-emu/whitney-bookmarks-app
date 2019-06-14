@@ -25,6 +25,8 @@ const api = function() {
       .then(jsonObj => {
         // NEED MORE CLARIFICATION ON WHAT THIS PORTION DOES
         if (error) {
+          console.log(error);
+          console.log('this is in the if loop');
           error.message = jsonObj.message;
           return Promise.reject(error);
         }

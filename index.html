@@ -7,31 +7,8 @@
   <link rel="stylesheet" href="styles.css">
   <title>Bookmarks App</title>
 </head>
-<body>
-  <header>
-    <h1>Bookmark App Title</h1>
-  </header>
-<!-- BOOKMARKS DISPLAY-->
-  <div class="flex-container">
-    <section class="user-controls">
-      <button class="button-add js-button-add">+Add</button>
-      <label for="star-rating-filter">Filter by:</label>
-      <select name="star-rating" id="star-rating-filter">
-        <option value="five-star">See All</option>
-        <option value="four-star">5 stars</option>
-        <option value="three-star">4 stars+</option>
-        <option value="two-star">3 stars+</option>
-        <option value="one-star">2 stars+</option>
-      </select>
-    </section>
-<!-- BOOKMARKS FILTERED -->
-    <!-- <p class="bookmark-filter-display-text js-bookmark-filter-display-text hidden">Filtering By: x stars and above</p> -->
-<!-- BOOKMARKS DISPLAY -->
-    <section class="bookmark-container js-bookmark-container"></section>
-    </div>
-      </div>
+<body id="js-bookmark-body">
 
-  <footer>Bookmark App Footer</footer>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="scripts/api.js"></script>
   <script src="scripts/store.js"></script>

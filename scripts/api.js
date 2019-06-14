@@ -10,7 +10,7 @@ const api = function() {
       method: method,
       body: body
     };
-    console.log(body);
+    //console.log(body);
     let destinationURL = baseURL;
 
     // if the request has an id, add it to the endpoint

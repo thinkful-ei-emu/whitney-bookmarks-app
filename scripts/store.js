@@ -28,16 +28,30 @@ const STORE = function(){
     //console.log(this.bookmarks);
   };
 
+  const filterBookmarks = function(filterNumber) {
+    this.filteredBookmarks = [];
+    this.filtering = true;
+    // filter based on user selection
+    this.bookmarks.forEach(function(bookmarkInd) {
+      if (bookmarkInd.rating >= filterNumber) {
+        STORE.filteredBookmarks.push(bookmarkInd);
+      }
+    });    
+  };
+
 
 
   // returns store object with bookmarks
   return {
     bookmarks: [],
+    filteredBookmarks: [],
     error: null,
     adding: false,
+    filtering: false,
     addBookmark,
     expandBookmark,
-    deleteBookmark
+    deleteBookmark,
+    filterBookmarks
   };
 
 }();

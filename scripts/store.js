@@ -33,6 +33,7 @@ const STORE = function(){
   return {
     bookmarks: [],
     error: null,
+    adding: false,
     addBookmark,
     expandBookmark,
     deleteBookmark

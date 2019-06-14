@@ -25,40 +25,11 @@
       </select>
     </section>
 <!-- BOOKMARKS FILTERED -->
-    <p class="bookmark-filter-display-text js-bookmark-filter-display-text hidden">Filtering By: x stars and above</p>
+    <!-- <p class="bookmark-filter-display-text js-bookmark-filter-display-text hidden">Filtering By: x stars and above</p> -->
 <!-- BOOKMARKS DISPLAY -->
     <section class="bookmark-container js-bookmark-container"></section>
     </div>
       </div>
-
-<!-- ADD BOOKMARK HTML -->
-  <div class="add-book-container hidden">
-    <form> 
-      <fieldset>
-        <legend>Bookmark Information</legend>
-        Title:<br>
-        <input type="text" name:"title" required><br>
-        Rating:<br>
-        <input type="radio" name="stars" value="5 stars" checked>5 stars
-        <input type="radio" name="stars" value="4 stars">4 stars
-        <input type="radio" name="stars" value="3 stars">3 stars
-        <input type="radio" name="stars" value="2 stars">2 stars
-        <input type="radio" name="stars" value="1 stars">1 star<br>
-        Description:<br>
-  <!-- Can change width and height of textarea in tag -->
-        <textarea name="description" id="bookmark-description" cols="100" rows="10" required></textarea><br>
-        Bookmark URL:<br>
-        <input type="url" name="url" required><br><br>
-        <input type="submit" value="Submit">
-        <input type="reset" value="Reset"> 
-      </fieldset>
-    </form>
-    <!-- ERROR DISPLAY -->
-    <div class="error-container js-error-container">
-      <h2>ERROR!</h2>
-      <p>Errors</p>
-    </div>
-  </div>
 
   <footer>Bookmark App Footer</footer>
   <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

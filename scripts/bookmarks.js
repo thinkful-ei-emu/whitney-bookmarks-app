@@ -5,12 +5,13 @@ const bookmarks = function() {
 
   const generateBookmarkHtml = function(bookmarkInd) {
     // if expand is false, add expand html (which will set to hidden)
-    const bookmarkExpand = !bookmarkInd.expand ? 'bookmark-expand':'';
+    const bookmarkExpand = !bookmarkInd.expand ? 'bookmark-hide':'';
+    const bookmarkHide = STORE.adding ? 'bookmark-hide':'';
       
 
     // generate individual bookmark html
     return `
-    <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
+    <div class="bookmark-condensed-container js-bookmark-condensed-container ${bookmarkHide}" data-item-id="${bookmarkInd.id}">
       <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
       <span class="bookmark-rating js-bookmark-rating">${bookmarkInd.rating}</span>
       <button class="expand-button js-expand-button">...</button>
@@ -20,7 +21,38 @@ const bookmarks = function() {
       <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url}>Visit Site!</a>
       <button class="delete-button js-delete-button">Delete</button>
     </div>
+
     `;
+  };
+
+  const generateBookmarkAddHtml = function() {
+    return [`
+    <div class="add-book-container">
+    <form> 
+      <fieldset>
+        <legend>Bookmark Information</legend>
+        Title:<br>
+        <input type="text" name:"title" required><br>
+        Rating:<br>
+        <input type="radio" name="stars" value="5 stars" checked>5 stars
+        <input type="radio" name="stars" value="4 stars">4 stars
+        <input type="radio" name="stars" value="3 stars">3 stars
+        <input type="radio" name="stars" value="2 stars">2 stars
+        <input type="radio" name="stars" value="1 stars">1 star<br>
+        Description:<br>
+        <textarea name="description" id="bookmark-description" cols="100" rows="10" required></textarea><br>
+        Bookmark URL:<br>
+        <input type="url" name="url" required><br><br>
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset"> 
+      </fieldset>
+    </form>
+    <!-- ERROR DISPLAY -->
+    <div class="error-container js-error-container">
+      <h2>ERROR!</h2>
+      <p>Errors</p>
+    </div>
+  </div>`];
   };
 
   // Returns joined individual bookmark html
@@ -30,17 +62,23 @@ const bookmarks = function() {
   };
   // add html to the page
   const render = function (){
-    //console.log('Rendering page');
-
     //making a copy of our STORE
-    let bookmarksStoreCopy = [...STORE.bookmarks];
-    //console.log(bookmarksStoreCopy);
-    //console.log(bookmarks);
+    if (STORE.adding) {
+      //if STORE.adding is true, add the ADDING html
+      const addHtml = generateBookmarkAddHtml().join('');
+      $('.js-bookmark-container').html(addHtml);
+    } else {
+    //otherwise add the bookmark html
+      let bookmarksStoreCopy = [...STORE.bookmarks];
 
-    // send bookmarks object to generate html
-    const bookmarkHtml = generateBookmarksHtml(bookmarksStoreCopy);
-    // add the html to the bookmark container
-    $('.js-bookmark-container').html(bookmarkHtml);
+      // send bookmarks object to generate html
+      const bookmarkHtml = generateBookmarksHtml(bookmarksStoreCopy);
+
+      // add the html to the bookmark container
+      $('.js-bookmark-container').html(bookmarkHtml);
+    }
+
+
   };
 
   /*Event Listeners */
@@ -76,16 +114,25 @@ const bookmarks = function() {
         })
         .catch((error) => {
           console.log(error);
-          store.setError(error.message);
+          STORE.error(error.message);
           renderError();
         }
         );
     });
   };
 
+  const handleBookmarkAdd = function() {
+    $('.js-button-add').click(() => {
+      console.log('You clicked the add button');
+      STORE.adding = true;
+      render();
+    });
+  };
+
   const bindEventListeners = function() {
     handleBookmarkExpand();
     handleBookmarkDelete();
+    handleBookmarkAdd();
   };
 
   return {

@@ -8,6 +8,7 @@ const STORE = function(){
     this.bookmarks.forEach(bookmarkInd => (bookmarkInd.expand = false));
 
     this.bookmarks.push(bookmark);
+    this.adding = false;
   };
 
   const expandBookmark = function(id) {

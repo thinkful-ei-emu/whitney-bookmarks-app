@@ -68,7 +68,7 @@ const bookmarks = function() {
     if (STORE.adding) {
       //if STORE.adding is true, add the ADDING html
       const addHtml = generateBookmarkAddHtml().join('');
-      $('.user-controls').toggleClass('bookmark-hide');
+      //$('.user-controls').toggleClass('bookmark-hide');
       $('.js-bookmark-container').html(addHtml);
       bindEventListeners();
     } else {
@@ -101,8 +101,10 @@ const bookmarks = function() {
 
   const handleBookmarkExpand = function() {
     $('.js-bookmark-container').on('click', '.js-expand-button', e => {
+      console.log('I am being clicked');
       //get id from current target bookmark
       const id = getBookmarkIdFromElement(e.currentTarget);
+      //console.log(e.currentTarget, id);
       //call store method to change expand to true
       STORE.expandBookmark(id);
       render();
@@ -150,10 +152,10 @@ const bookmarks = function() {
         .then((newBookmark) => {
           //then update the store
           STORE.addBookmark(newBookmark);
-          STORE.adding = false;
           render();
         }).catch(e => handleErrors(e));
-      //render();
+      // Expand will not work after adding a new item without this render
+      render();
     });
   };
 

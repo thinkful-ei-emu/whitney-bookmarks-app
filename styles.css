@@ -20,12 +20,13 @@ header {
 background-color: rgb(208, 250, 250);
 border-bottom: 2px solid lightgray;
 width: 100%;
+height: 66px;
 }
 
  h1 {
   font-family: 'Dancing Script', cursive;
   text-align: center;
-  font-size: 11vw; 
+  font-size: 55px; 
   margin: 0 auto; 
 }
 
@@ -68,7 +69,7 @@ background-color: rgb(252, 238, 240);
   display: flex;
   flex-direction: column;
   background-color: rgb(240, 238, 238);
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .button-add {
@@ -196,6 +197,10 @@ input[type="button"] {
   box-shadow: 0 1px 0 1px lightgray;
 }
 
+.footer-space {
+  height: 25px;
+}
+
 footer {
   font-size: 15px;
   position: fixed;
@@ -207,10 +212,13 @@ footer {
 
 /* MEDIA QUERIES */
 
-@media screen and (min-width: 500px) {
-  h1 {
-    font-size: 55px;
+@media screen and (max-width: 283px) {
+  body {
+    width: 283px;
   }
+}
+
+@media screen and (min-width: 500px) {
 
   .flex-container {
     width: 500px;

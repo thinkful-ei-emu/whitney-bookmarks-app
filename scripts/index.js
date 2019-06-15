@@ -9,6 +9,7 @@ $(document).ready(function() {
   bookmarks.bindEventListeners();
 
   // Use getBookmarks to get the bookmarks from the API
+  // IF NO BOOKMARKS SHOW - ALL DATA STORED IN API IS WIPED EVERY 24 HOURS PER DOCUMENTATION
   api.getBookmarks()
   // Once bookmarks are retrieved (bookmark structure => [{bookmark}, {bookmark}, {bookmark}] )
     .then((bookmarkObj) => {

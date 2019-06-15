@@ -24,7 +24,7 @@ const STORE = function(){
   const deleteBookmark = function(id) {
     //find bookmark with matching id
     this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
-    //console.log(this.bookmarks);
+    console.log(this.bookmarks);
   };
 
   const filterBookmarks = function(filterNumber) {

@@ -41,8 +41,8 @@ const bookmarks = function() {
     // generate individual bookmark html
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
-      <button class="expand-button js-expand-button">...</button>  
-      <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
+        <button class="expand-button js-expand-button">...</button>  
+        <h2 class="bookmark-name js-bookmark-name">${bookmarkInd.title}</h2>
         <div class="bookmark-rating js-bookmark-rating">
           ${bookmarkRating}
         </div>
@@ -60,11 +60,11 @@ const bookmarks = function() {
   const generateHeaderFooterUserControls = function() {
     return `
     <!-- BOOKMARKS HEADER -->
-    <header>
+    <header role="banner">
     <h1>BookSmarts</h1>
   </header>
 <!-- BOOKMARKS CONTROLS-->
-  <div class="main-container">
+  <div class="main-container" role="main">
     <div class="flex-container">
       <section class="user-controls">
         <button class="button-add js-button-add">+Add</button>
@@ -86,25 +86,34 @@ const bookmarks = function() {
     </div>
   </div>
 <!-- BOOKMARKS FOOTER -->
-  <footer>Thinkful Engineering Immersion</footer>`;
+  <div class="footer-space" />
+  <footer role="contentinfo">Thinkful Engineering Immersion</footer>`;
   };
 
   const generateBookmarkAddHtml = function() {
     return [`
     <div class="add-bookmark-container">
     <form class="add-bookmark-form"> 
-      <fieldset>
+      <fieldset role="group">
         <legend class="form">Bookmark Information</legend>
         <label class="form" for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br>
-        <label class="form" for="rating">Rating:</label><br>
-        <input type="radio" name="rating" id="rating" value="5" checked>5 stars
-        <input type="radio" name="rating" id="rating" value="4">4 stars
-        <input type="radio" name="rating" id="rating" value="3">3 stars
-        <input type="radio" name="rating" id="rating" value="2">2 stars
-        <input type="radio" name="rating" id="rating" value="1">1 star<br>
-        <lable class="form" for="bookmark-description">Description:</lable><br>
-        <textarea name="desc" id="bookmark-description" cols="100" rows="10" required></textarea><br>
+        <label class="form">Rating:</label><br>
+        <div class"bookmark-hide" role="radiogroup">
+          <label class="bookmark-hide" for="rating5">5 stars</label>
+          <input type="radio" name="rating" id="rating5" value="5" checked>5 stars
+          <label class="bookmark-hide" for="rating4">4 stars</label>
+          <input type="radio" name="rating" id="rating4" value="4">4 stars
+          <label class="bookmark-hide" for="rating3">3 stars</label>
+          <input type="radio" name="rating" id="rating3" value="3">3 stars
+          <label class="bookmark-hide" for="rating2">2 stars</label>
+          <input type="radio" name="rating" id="rating2" value="2">2 stars
+          <label class="bookmark-hide" for="rating1">1 star</label>
+          <input type="radio" name="rating" id="rating1" value="1">1 star<br>
+        </div>
+      <lable class="form">Description:<br>
+          <textarea name="desc" id="bookmark-description" cols="100" rows="10" required></textarea>
+        </lable><br>
         <label class="form" for="url">Bookmark URL:</label><br>
         <input type="url" name="url" id="url" required><br><br>
         <div class="actions">
@@ -216,11 +225,11 @@ const bookmarks = function() {
       const id = $(e.currentTarget)
         .parent()
         .parent()
+        .parent()
         .data('item-id');
-      //console.log(id);
+      console.log(id);
       api.deleteBookmark(id)
-        .then((jsonObj) => {
-          console.log(jsonObj);
+        .then(() => {
           STORE.deleteBookmark(id);
           render();
         })
@@ -284,6 +293,8 @@ const bookmarks = function() {
       STORE.setError(null);
     });
   };
+
+  
 
 
   const bindEventListeners = function() {

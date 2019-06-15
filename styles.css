@@ -204,6 +204,15 @@ input[type="button"] {
   box-shadow: 0 1px 0 1px lightgray;
 }
 
+.url-warning-container {
+  text-align: center;
+}
+
+.url-warning {
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
 .footer-space {
   height: 25px;
 }

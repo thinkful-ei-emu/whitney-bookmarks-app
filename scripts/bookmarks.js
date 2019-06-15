@@ -102,11 +102,14 @@ const bookmarks = function() {
           <label class="bookmark-hide" for="rating1">1 star</label>
           <input type="radio" name="rating" id="rating1" value="1">1 star<br>
         </div>
-      <lable class="form">Description:<br>
+        <lable class="form">Description:<br>
           <textarea name="desc" id="bookmark-description" cols="100" rows="10" required></textarea>
         </lable><br>
         <label class="form" for="url">Bookmark URL:</label><br>
-        <input type="url" name="url" id="url" required><br><br>
+        <input type="url" name="url" id="url" required><br>
+        <div class="url-warning-container">
+          <p class="url-warning"> URL must include HTTP/HTTPS</p>
+        </div>
         <div class="actions">
           <input type="submit" value="Submit">
           <input type="reset" value="Reset"> 
@@ -144,8 +147,13 @@ const bookmarks = function() {
   const renderError = function() {
 
     if (STORE.error) {
-      const errorMessage = generateError(STORE.error);
-      $('.user-controls').after(errorMessage);
+      if (STORE.adding) {
+        const errorMessage = generateError(STORE.error);
+        $('.flex-container').after(errorMessage);
+      } else if (!STORE.adding) {
+        const errorMessage = generateError(STORE.error);
+        $('.user-controls').after(errorMessage);
+      } 
     } else {
       $('.js-error-container').empty();
     }
@@ -292,7 +300,7 @@ const bookmarks = function() {
 
   // closes error container
   const handleErrorClose = function() {
-    $('#cancel-error').click(() => {
+    $('.flex-container').on('click', '#cancel-error', () => {
       renderButtonClose();
       STORE.setError(null);
     });

@@ -2,18 +2,24 @@
 
 const STORE = function(){
 
+  // ADDS bookmark to STORE
   const addBookmark = function(bookmark) {
+
     // adds expand tracking locally
     this.bookmarks.forEach(bookmarkInd => (bookmarkInd.expand = false));
 
+    // adds bookmark to store
     this.bookmarks.push(bookmark);
+    // toggles adding state
     this.adding = false;
   };
 
+  // toggles EXPANDED state in STORE
   const expandBookmark = function(id) {
-    //find bookmark with matching id
+    // find bookmark with matching id
     let expandedBookmark = this.bookmarks.find(bookmark => bookmark.id === id);
 
+    // toggle expanded value
     if (expandedBookmark.expand) {
       expandedBookmark.expand = false;
     } else {
@@ -21,12 +27,14 @@ const STORE = function(){
     }
   };
 
+  // DELETES bookmark in STORE
   const deleteBookmark = function(id) {
-    //find bookmark with matching id
+
+    // returns all bookmarks that DO NOT match the id param
     this.bookmarks = this.bookmarks.filter(bookmark => bookmark.id !== id);
-    console.log(this.bookmarks);
   };
 
+  // FILTERS bookmarks in STORE
   const filterBookmarks = function(filterNumber) {
     this.filteredBookmarks = [];
     this.filtering = true;
@@ -38,24 +46,37 @@ const STORE = function(){
     });    
   };
 
+  // sets error message in STORE
   const setError = function(errorMessage) {
     this.error = errorMessage;
   };
 
+  // toggles ADDING state in STORE
+  const setAdding = function(param) {
+    this.adding = param;
+  };
+
+  // toggles FILTERING state in STORE
+  const setFiltering = function(param) {
+    this.filtering = param;
+  };
 
 
-  // returns store object with bookmarks
+
+  // returns STORE object with bookmarks, allow global access
   return {
     bookmarks: [],
     filteredBookmarks: [],
-    error: null, //normally null, {message: 'Testing for errors!'}
+    error: null, 
     adding: false,
     filtering: false,
     addBookmark,
     expandBookmark,
     deleteBookmark,
     filterBookmarks,
-    setError
+    setError,
+    setAdding,
+    setFiltering
   };
 
 }();

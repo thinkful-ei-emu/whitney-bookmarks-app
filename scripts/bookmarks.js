@@ -5,6 +5,7 @@
 // eslint-disable-next-line no-unused-vars
 const bookmarks = function() {
 
+  // generates checked and unchecked stars based on the user's rating
   const generateStarRating = function(bookmarkInd) {
     let starRating;
     let starChecked = bookmarkInd.rating;
@@ -12,25 +13,11 @@ const bookmarks = function() {
     const starCheckedHtml = '<span class="fa fa-star checked"></span>';
     const starUncheckedHtml = '<span class="fa fa-star"></span>';
 
+    // Repeat the checked star HTML to indicate how many stars a user has given a bookmark
+    // Repeat the unchecked star HTML however many times is necessary for their to be 5 stars total
     starRating = starCheckedHtml.repeat(starChecked) + starUncheckedHtml.repeat(starUnchecked);
     
     return starRating;
-
-    // Refactoring using .repeat string method
-    //let starRating = '';
-    // let counter;
-    // for (let i = 0; i < bookmarkInd.rating; i++) {
-    //   // '<span class="fa fa-star checked"></span>'.repeat(bookmarkInd.rating)
-    //   starRating += '<span class="fa fa-star checked"></span>';
-    //   counter = i;
-    //   console.log(starRating);
-    // }
-
-    // for (let j = counter; j < 4; j++) {
-    //   starRating += '<span class="fa fa-star"></span>';
-    // }
-    // //console.log(starRating);
-    // return starRating;
   };
 
   const generateBookmarkHtml = function(bookmarkInd) {
@@ -38,7 +25,7 @@ const bookmarks = function() {
     const bookmarkExpand = !bookmarkInd.expand ? 'bookmark-hide':'';
     const bookmarkRating = generateStarRating(bookmarkInd);      
 
-    // generate individual bookmark html
+    // generate individual bookmark HTML
     return `
       <div class="bookmark-condensed-container js-bookmark-condensed-container" data-item-id="${bookmarkInd.id}">
         <button class="expand-button js-expand-button">...</button>  
@@ -58,6 +45,8 @@ const bookmarks = function() {
   };
 
   const generateHeaderFooterUserControls = function() {
+
+    // generate header, user controls, and footer HTML
     return `
     <!-- BOOKMARKS HEADER -->
     <header role="banner">
@@ -91,6 +80,8 @@ const bookmarks = function() {
   };
 
   const generateBookmarkAddHtml = function() {
+
+    // generate the HTML for adding a bookmark
     return [`
     <div class="add-bookmark-container">
     <form class="add-bookmark-form"> 
@@ -132,6 +123,7 @@ const bookmarks = function() {
     return bookmarksHtml.join('');
   };
 
+  // generates error message HTML
   const generateError = function(errorMessage) {
     return `
     <!-- ERROR DISPLAY -->
@@ -143,10 +135,12 @@ const bookmarks = function() {
   `;
   };
 
+  // removes error container
   const renderButtonClose = function() {
     $('.js-error-container').remove();
   };
 
+  // if there is an error, render error container
   const renderError = function() {
 
     if (STORE.error) {
@@ -170,15 +164,20 @@ const bookmarks = function() {
       $('.user-controls').toggleClass('bookmark-hide');
       $('.js-error-container-main').toggleClass('bookmark-hide');
       $('.js-bookmark-container').html(addHtml);
+      // check for errors, and render if there is an error
       renderError();
       bindEventListeners();
-    } else if (STORE.filtering) {
+    } else 
+
+    // if STORE.filtering is true, add the following HTML
+    if (STORE.filtering) {
+      
       let bookmarksFilteredCopy = [...STORE.filteredBookmarks];
       const bookmarkFilteredHtml = generateBookmarksHtml(bookmarksFilteredCopy);
-      //$('.js-bookmark-container').empty();
       $('.js-bookmark-container').html(bookmarkFilteredHtml);
+      // check for errors, and render if there is an error
       renderError();
-      STORE.filtering = false;
+      STORE.setFiltering(false);
       bindEventListeners();
     } else {
       //otherwise add the bookmark html
@@ -194,8 +193,8 @@ const bookmarks = function() {
     }
   };
 
+  // interpret form data
   const serializeJson = function(form) {
-    //console.log(form);
     const formData = new FormData(form);
     const o = {};
     formData.forEach((val, name) => o[name] = val);
@@ -204,12 +203,14 @@ const bookmarks = function() {
 
   /*Event Listeners */
 
+  // returns the id of the target element
   const getBookmarkIdFromElement = function(targetElement) {
     return $(targetElement)
       .closest('.js-bookmark-condensed-container')
       .data('item-id');
   };
 
+  // EXPANDS the bookmark clicked
   const handleBookmarkExpand = function() {
     $('.js-bookmark-container').on('click', '.js-expand-button', e => {
       //get id from current target bookmark
@@ -220,6 +221,7 @@ const bookmarks = function() {
     });
   };
 
+  // DELETES the bookmark clicked
   const handleBookmarkDelete = function() {
     $('.js-delete-button').click(e => {
       const id = $(e.currentTarget)
@@ -227,7 +229,6 @@ const bookmarks = function() {
         .parent()
         .parent()
         .data('item-id');
-      console.log(id);
       api.deleteBookmark(id)
         .then(() => {
           STORE.deleteBookmark(id);
@@ -241,14 +242,15 @@ const bookmarks = function() {
     });
   };
 
+  // Changes state to ADDING
   const handleBookmarkAdd = function() {
     $('.js-button-add').click(() => {
-      //console.log('You clicked the add button');
-      STORE.adding = true;
+      STORE.setAdding(true);
       render();
     });
   };
 
+  // ADDS the bookmark
   const handleBookmarkSubmit = function() {
     $('.add-bookmark-form').submit(function(event) {
       event.preventDefault();
@@ -270,13 +272,15 @@ const bookmarks = function() {
     });
   };
 
+  // Returns state to initial view when cancel is clicked
   const handleBookmarkCancel = function() {
     $('.js-cancel-button').click(() => {
-      STORE.adding = false;
+      STORE.setAdding(false);
       render();
     });
   };
 
+  // FILTERS bookmarks by user input
   const handleBookmarkFilter = function() {
     $('#star-rating-filter').change( () => {
       let filterParam = $('#star-rating-filter').val();
@@ -286,17 +290,15 @@ const bookmarks = function() {
     
   };
 
+  // closes error container
   const handleErrorClose = function() {
     $('#cancel-error').click(() => {
-      //console.log('You clicked cancel');
       renderButtonClose();
       STORE.setError(null);
     });
   };
 
-  
-
-
+  // set up event listeners
   const bindEventListeners = function() {
     handleBookmarkExpand();
     handleBookmarkDelete();
@@ -307,10 +309,10 @@ const bookmarks = function() {
     handleErrorClose();
   };
 
+  // allows access to bindEventListeners and render
   return {
     bindEventListeners: bindEventListeners,
     render: render,
   };
-  
   
 }();

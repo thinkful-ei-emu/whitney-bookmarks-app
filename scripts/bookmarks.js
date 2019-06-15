@@ -48,8 +48,10 @@ const bookmarks = function() {
         </div>
         <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
           <p>Description: ${bookmarkInd.desc}</p>
-          <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url}>Visit Site!</a>
-          <button class="delete-button js-delete-button">Delete</button>
+          <div class="actions">
+            <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url}>Visit Site!</a>
+            <button class="delete-button js-delete-button">Delete</button>
+          </div>
         </div>
       </div>
     `;
@@ -62,26 +64,27 @@ const bookmarks = function() {
     <h1>BookSmarts</h1>
   </header>
 <!-- BOOKMARKS CONTROLS-->
-  <div class="flex-container">
-    <section class="user-controls">
-      <button class="button-add js-button-add">+Add</button>
-      <div class="filter-container">
-        <label for="star-rating-filter">Filter by:</label>
-        <select name="star-rating" id="star-rating-filter">
-          <option value="0">minimum rating</option>
-          <option value="5">5 stars</option>
-          <option value="4">4 stars+</option>
-          <option value="3">3 stars+</option>
-          <option value="2">2 stars+</option>
-          <option value="1">See All</option>
-        </div>
-      </select>
-    </section>
-<!-- BOOKMARKS DISPLAY -->
-    <section class="bookmark-container js-bookmark-container">
-    </section>
-
+  <div class="main-container">
+    <div class="flex-container">
+      <section class="user-controls">
+        <button class="button-add js-button-add">+Add</button>
+        <div class="filter-container">
+          <label for="star-rating-filter">Filter by:</label>
+          <select name="star-rating" id="star-rating-filter">
+            <option value="0">minimum rating</option>
+            <option value="5">5 stars</option>
+            <option value="4">4 stars+</option>
+            <option value="3">3 stars+</option>
+            <option value="2">2 stars+</option>
+            <option value="1">See All</option>
+          </div>
+        </select>
+      </section>
+  <!-- BOOKMARKS DISPLAY -->
+      <section class="bookmark-container js-bookmark-container">
+      </section>
     </div>
+  </div>
 <!-- BOOKMARKS FOOTER -->
   <footer>Thinkful Engineering Immersion</footer>`;
   };
@@ -104,9 +107,11 @@ const bookmarks = function() {
         <textarea name="desc" id="bookmark-description" cols="100" rows="10" required></textarea><br>
         <label class="form" for="url">Bookmark URL:</label><br>
         <input type="url" name="url" id="url" required><br><br>
-        <input type="submit" value="Submit">
-        <input type="reset" value="Reset"> 
-        <input type="button" value="Cancel" class="js-cancel-button">
+        <div class="actions">
+          <input type="submit" value="Submit">
+          <input type="reset" value="Reset"> 
+          <input type="button" value="Cancel" class="js-cancel-button">
+        </div>
       </fieldset>
     </form>
   </div>`];
@@ -124,7 +129,7 @@ const bookmarks = function() {
     <div class="error-container js-error-container">
       <button id="cancel-error">X</button>
       <h2>ERROR!</h2>
-      <p>${errorMessage.message}</p>
+      <p>${errorMessage}</p>
     </div>
   `;
   };
@@ -214,12 +219,13 @@ const bookmarks = function() {
         .data('item-id');
       //console.log(id);
       api.deleteBookmark(id)
-        .then(() => {
+        .then((jsonObj) => {
+          console.log(jsonObj);
           STORE.deleteBookmark(id);
           render();
         })
         .catch((error) => {
-          STORE.error(error.message);
+          STORE.setError(error.message);
           renderError();
         }
         );
@@ -247,7 +253,7 @@ const bookmarks = function() {
           STORE.addBookmark(newBookmark);
           render();
         }).catch((error) => {
-          STORE.error(error.message);
+          STORE.setError(error.message);
           renderError();
         });
       // Expand will not work after adding a new item without this render
@@ -275,6 +281,7 @@ const bookmarks = function() {
     $('#cancel-error').click(() => {
       //console.log('You clicked cancel');
       renderButtonClose();
+      STORE.setError(null);
     });
   };
 

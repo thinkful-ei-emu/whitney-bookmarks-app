@@ -23,7 +23,7 @@ const api = function() {
     if(options.method === 'GET' || options.method === 'DELETE') {
       delete options.body;
     }
-
+  
     return fetch(destinationURL, options)
       .then(response => {
         // check if our resopnse is NOT ok

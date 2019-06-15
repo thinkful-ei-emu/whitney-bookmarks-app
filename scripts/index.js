@@ -18,5 +18,8 @@ $(document).ready(function() {
       
       // render the page
       bookmarks.render();
+    })
+    .catch(error => {
+      STORE.setError(`Error fetching bookmarks: ${error}`);
     });
 });

@@ -38,6 +38,10 @@ const STORE = function(){
     });    
   };
 
+  const setError = function(errorMessage) {
+    this.error = errorMessage;
+  };
+
 
 
   // returns store object with bookmarks
@@ -50,7 +54,8 @@ const STORE = function(){
     addBookmark,
     expandBookmark,
     deleteBookmark,
-    filterBookmarks
+    filterBookmarks,
+    setError
   };
 
 }();

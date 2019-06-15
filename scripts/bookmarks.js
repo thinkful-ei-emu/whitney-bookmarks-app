@@ -49,7 +49,7 @@ const bookmarks = function() {
         <div class="bookmark-expand js-bookmark-expand-container ${bookmarkExpand}">
           <p>Description: ${bookmarkInd.desc}</p>
           <div class="actions">
-            <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url}>Visit Site!</a>
+            <a class="bookmark-URL js-bookmark-URL" href=${bookmarkInd.url} target="_blank">Visit Site!</a>
             <button class="delete-button js-delete-button">Delete</button>
           </div>
         </div>
@@ -98,8 +98,8 @@ const bookmarks = function() {
         <legend class="form">Bookmark Information</legend>
         <label class="form" for="title">Title:</label><br>
         <input type="text" id="title" name="title" required><br>
-        <label class="form">Rating:</label><br>
-        <div class"bookmark-hide" role="radiogroup">
+        <div class"bookmark-hide" role="radiogroup" aria-labelledby="rating">
+          <label class="form" id="rating">Rating:</label><br>
           <label class="bookmark-hide" for="rating5">5 stars</label>
           <input type="radio" name="rating" id="rating5" value="5" checked>5 stars
           <label class="bookmark-hide" for="rating4">4 stars</label>

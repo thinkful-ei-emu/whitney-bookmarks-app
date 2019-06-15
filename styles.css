@@ -163,7 +163,17 @@ a:hover {
   margin-bottom: 10px;
   margin-right: 10px;
   box-shadow: 0 1px 0 1px lightgray;
-  align-self: flex-end;
+}
+
+.edit-button {
+  font-size: 20px;
+  font-family: 'Dosis', sans serif;
+  background-color: white;
+  border-radius: 12px;
+  padding: 3px, 7px, 3px, 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  box-shadow: 0 1px 0 1px lightgray;
 }
 
 .form {

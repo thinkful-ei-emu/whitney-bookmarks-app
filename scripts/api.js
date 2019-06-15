@@ -1,5 +1,6 @@
 'use strict';
 
+// eslint-disable-next-line no-unused-vars
 const api = function() {
   const baseURL = 'https://thinkful-list-api.herokuapp.com/whitneywallace/bookmarks';
 
@@ -41,14 +42,11 @@ const api = function() {
         return response.json();
       })
       .then(jsonObj => {
-        // NEED MORE CLARIFICATION ON WHAT THIS PORTION DOES
         if (error) {
-          //console.log(error);
           error.message = jsonObj.message;
           return Promise.reject(error);
         }
         // if there are no errors, return the JSON object (data retrieved)
-        //console.log(jsonObj);
         return jsonObj;
       });
   };
@@ -64,7 +62,7 @@ const api = function() {
   };
 
   const createBookmark = function(jsonObj) {
-    console.log(jsonObj);
+    //console.log(jsonObj);
     return bookmarkApiFetch('POST', jsonObj);
   };
 

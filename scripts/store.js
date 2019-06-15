@@ -1,5 +1,4 @@
 'use strict';
-/*global STORE */
 
 const STORE = function(){
 
@@ -45,7 +44,7 @@ const STORE = function(){
   return {
     bookmarks: [],
     filteredBookmarks: [],
-    error: null,
+    error: null, //normally null, {message: 'Testing for errors!'}
     adding: false,
     filtering: false,
     addBookmark,
